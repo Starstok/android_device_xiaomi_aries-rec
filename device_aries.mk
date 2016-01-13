@@ -1,3 +1,5 @@
+# Common QCOM configuration tools
+$(call inherit-product, device/qcom/common/Android.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # The gps config appropriate for this device
@@ -16,6 +18,22 @@ endif
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
+
+# Device uses high-density artwork where available
+PRODUCT_AAPT_CONFIG       := normal hdpi xhdpi xxhdpi
+PRODUCT_AAPT_PREF_CONFIG  := xhdpi
+
+# Recovery allowed devices
+TARGET_OTA_ASSERT_DEVICE := aries
+
+# Recovery
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/recovery/init.recovery.qcom.rc:root/init.recovery.qcom.rc \
+	$(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
+
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.secure=0 \
+    ro.adb.secure=0
 
 $(call inherit-product, build/target/product/full.mk)
 
